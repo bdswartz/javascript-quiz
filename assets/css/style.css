@@ -1,0 +1,86 @@
+:root {
+    --primary: black;
+    --secondary: white;
+    --tertiary: rgb(85, 28, 240);
+    --grey:  rgb(110, 110, 110);
+  }
+  
+body {
+    background-color: var(--secondary);
+    color: var(--primary);
+    min-height: 100vh;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+.game-title {
+    border-bottom: 3px double var(--grey);
+    font-size: 2.5rem;
+    font-style: bold;
+    text-align: center;
+    width: 60%;
+    margin: 20px auto 50px auto;
+}
+.sub-game-title {
+    font-style: bold;
+    font-size: 1.5rem;
+    width: 50%;
+    text-align: center;
+    margin: 30px auto;
+}
+.button-container {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 175px;
+}
+.startBtn {
+    height: 75px;
+    width: 150px;
+    border-radius: 12px;
+    background-color: var(--tertiary);
+    color: var(--secondary);
+    font-weight:bold;
+    font-size: 1.25rem;
+}
+.main-content-frame {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.major-header-content {
+    flex: 2;
+}
+.question {
+    width: 70%;   
+    margin: 20px auto;
+    font-size: 1.5rem;
+}
+.minor-content-frame {
+    flex: 5;
+}
+.answer-choice-container {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 0 auto;
+}
+.answer-choice {
+    background-color: var(--grey);
+    border-radius: 12px;
+    color: var(--secondary);
+    width: 70%;
+    margin: 10px 0;
+    padding: 15px 10px;
+    flex: 1;
+    font-size: 1.25rem;
+}
+.feedback {
+    color: rgba(0, 0, 0, 25%);
+    font-weight: lighter;
+    font-size: 2.0rem;
+    width: 70%;
+    border-top: 3px solid rgba(0, 0, 0, 25%);
+    margin: 20px auto;
+
+}
