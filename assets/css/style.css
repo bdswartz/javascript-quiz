@@ -32,7 +32,7 @@ body {
     display:flex;
     justify-content: center;
     align-items: center;
-    height: 175px;
+    height: auto;
 }
 .startBtn {
     height: 75px;
@@ -47,6 +47,16 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+.high-score {
+    display: inline;
+    float:left;
+    color: var(--tertiary);
+}
+.timer-display {
+    display: inline;
+    float:right;
+    color: var(--tertiary);
 }
 .major-header-content {
     flex: 2;
