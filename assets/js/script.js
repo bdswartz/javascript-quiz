@@ -1,15 +1,146 @@
+// Define the variables for the existing elements we will be targeting because they will
+// need to be global
+var buttonSelectContEl = document.querySelector("#button-container");
+var titleBoxEl = document.querySelector("#title-block");
+var infoEl = document.querySelector("#game-info");
+var answerListEl = document.querySelector("#answer-choice-container");
+var answerFeedEl = document.querySelector("#feedback-container");
+var startBtn = document.createElement("button");
+var gameInstructionEl = document.createElement("p");
+var timerDisplay = document.querySelector("#timer-display");
+
+// initialize beginning game conditions
+var questionNum = 0
+var timerValue = 0
+var timerStartTime = 100
+var score = 0;
+
+// Create Q&A array
+var arrayQuestAnswer = [
+    ["Where is the best place to enter a reference to an external JavaScript file?",
+    "Top of Head section","Bottom of Body section","Before First Div element","Top of Body section","Bottom of Body section"],
+    ['How do you write "Help!" in an alert box using JavaScript?','alert("Help!");','msg("Help");','alrtBox("Help!");','msgBox("Help");','alert("Help!");'],
+    ['How do you create a function in JavaScript?',"var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()","var myFunction = function()"]
+];
+
 // Function to create welcome screen with title, instructions and start button
+var createLandingScreen = function() {
+    // Create game instructions below Game Title (<P> in .title-block)
+    gameInstructionEl.textContent = "Answer multiple choice questions by clicking on the correct answer. You have a total of 100 seconds to complete the quiz. Every wrong answer will take away 10 seconds from your remaining time. Press the Start button when ready to begin the quiz.";
+    gameInstructionEl.className = "sub-game-title";
+    // Create start button below the game instructions (button in .button-container)
+    startBtn.className = "start-btn";
+    startBtn.textContent = "Start Game";
+    // append game instructions and start button
+    titleBoxEl.appendChild(gameInstructionEl);
+    buttonSelectContEl.appendChild(startBtn);
+};
 
-// Create Game play screen with question answer choices, and cycle through questions
+var displayQuestionContainers = function() {
+// Create the question element and answer choice list elements
+    var questionBoxEl = document.querySelector("#major-header-content");
+    var questionEl = document.createElement("h2");
+    questionEl.id = "question-display"
+    questionEl.className = "question";
+    questionBoxEl.appendChild(questionEl);
+    for (var index = 1; index < 5; index++) {
+        var answerChoiceEl = document.createElement("li");
+        answerChoiceEl.className = "answer-choice";
+        answerChoiceEl.setAttribute("data-choice", index);
+        answerListEl.appendChild(answerChoiceEl);
+    };
+    displayNextQuestion();
+};
 
-// Check answer, keep score, update timer and display feedback
+
+// Populate the question and answer elements
+    var displayNextQuestion = function () {
+        // Display the next question to be answered in the question display box
+        var questionEl = document.querySelector("#question-display");
+        questionEl.textContent = arrayQuestAnswer[questionNum] [0];
+        console.log(arrayQuestAnswer[questionNum] [0]);
+        //  Display corresponding answer choices
+        for (choiceNum = 1; choiceNum< 5; choiceNum++) {
+            var printAnswer = document.querySelector(".answer-choice[data-choice='" + choiceNum + "']");
+            printAnswer.textContent = arrayQuestAnswer[questionNum] [choiceNum];
+        };
+        answerListEl.addEventListener("click", function() {
+            var answr = parseInt(event.target.getAttribute("data-choice"));
+            submitAnswer (questionNum, answr);
+        }
+        )};
+
+var submitAnswer = function(question, answr) {
+    console.log(answr);
+    var feedbackEl = document.querySelector("#feedback");
+    if (arrayQuestAnswer [question] [answr] == arrayQuestAnswer[question] [5]) {
+        score++;
+        questionNum++;
+        console.log(feedbackEl);
+        feedbackEl.textContent = "Correct!"
+        setTimeout( function() {
+            feedbackEl.textContent = "";
+            if (questionNum < arrayQuestAnswer.length) {
+                displayNextQuestion();
+            }
+            else {
+                endGame();
+            };
+        }, 1000); 
+    }
+    else {
+        feedbackEl.textContent = "Incorrect!";
+        setTimeout( function() {feedbackEl.textContent = ""}, 1000);
+        timerValue = timerValue - 10;
+    }
+};
+
+// Create Game play control function 
+var gameControl = function() {
+    // remove game instructions and start button
+    startBtn.remove();
+    gameInstructionEl.remove();
+    // Start Timer
+    timerStart();
+    // Optional, randomize the order for the question and answer order
+    // Start Q&A
+    displayQuestionContainers()
+    // Call Q&A display function
+    //On a click of any of the options, call function to check answer 
+
+    // create
+};
+
+// Function to check answer, keep score, update timer and display feedback
 
 // Timer function
+var timerStart = function() {
+    timerValue = timerStartTime
+    var gameTimer = setInterval(function(){
+        timerDisplay.innerHTML = "Time Remaining: " + timerValue;
+
+        if (timerValue > 0) {
+        timerValue--;
+        }
+        // if the timer has expired, stop the timer and end the game
+    else {
+        clearInterval(gameTimer);
+        // endGame();
+        }
+    },1000);
+};
 
 // End game, display score, check high scores
-
+var endGame = function() {
+console.log(score);
+storeHighScore();
+};
 // Update high score in local storage
 
-// Display high scores
+// Display high scores and give choice to start again
 
 // ***Optional*** randomize function to set the question order and possible answer order
+// Create event listeners
+
+createLandingScreen();
+startBtn.addEventListener("click" , gameControl);

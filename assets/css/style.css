@@ -28,13 +28,13 @@ body {
     text-align: center;
     margin: 30px auto;
 }
-.button-container {
+#button-container {
     display:flex;
     justify-content: center;
     align-items: center;
     height: auto;
 }
-.startBtn {
+.start-btn {
     height: 75px;
     width: 150px;
     border-radius: 12px;
@@ -52,13 +52,15 @@ body {
     display: inline;
     float:left;
     color: var(--tertiary);
+    margin-left: 15px;
 }
-.timer-display {
+#timer-display {
     display: inline;
     float:right;
     color: var(--tertiary);
+    margin-right: 15px;
 }
-.major-header-content {
+#major-header-content {
     flex: 2;
 }
 .question {
@@ -69,7 +71,7 @@ body {
 .minor-content-frame {
     flex: 5;
 }
-.answer-choice-container {
+#answer-choice-container {
     display: flex;
     flex-direction: column;
     width: 70%;
@@ -85,7 +87,7 @@ body {
     flex: 1;
     font-size: 1.25rem;
 }
-.feedback {
+#feedback {
     color: rgba(0, 0, 0, 25%);
     font-weight: lighter;
     font-size: 2.0rem;
