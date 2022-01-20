@@ -15,12 +15,54 @@ var timerValue = 0
 var timerStartTime = 100
 var score = 0;
 
-// Create Q&A array
-var arrayQuestAnswer = [
-    ["Where is the best place to enter a reference to an external JavaScript file?",
-    "Top of Head section","Bottom of Body section","Before First Div element","Top of Body section","Bottom of Body section"],
-    ['How do you write "Help!" in an alert box using JavaScript?','alert("Help!");','msg("Help");','alrtBox("Help!");','msgBox("Help");','alert("Help!");'],
-    ['How do you create a function in JavaScript?',"var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()","var myFunction = function()"]
+
+var quizInfo = [
+    { 
+        question:"Where is the best place to enter a reference to an external JavaScript file?",
+        choices:["Top of Head section","Bottom of Body section","Before First Div element","Top of Body section"],
+        answer: "Bottom of Body section"
+    },
+
+    {
+        question: 'How do you write "Help!" in an alert box using JavaScript?',
+        choices: ['alert("Help!");','msg("Help");','alrtBox("Help!");','msgBox("Help");'],
+        answer: 'alert("Help!");'
+    },
+    {
+        question: 'How do you create a function in JavaScript?',
+        choices: ["var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()"],
+        answer: "var myFunction = function()"
+    },
+    {
+        question: 'Which of these conditionals is not true?',
+        choices: ["(!false)", "(true)", "(True)", "(“true” === true)"],
+        answer: "(“true” === true)"
+    },
+    {
+        question: 'Which of these is a comment in a JavaScript?',
+        choices: ["<! comment", "<--comment" , "//comment", "/* comment */"],
+        answer: "//comment"
+    },
+    // {
+    //     question: 'How do you create a function in JavaScript?',
+    //     choices: ["var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()"],
+    //     answer: "var myFunction = function()"
+    // },
+    // {
+    //     question: 'How do you create a function in JavaScript?',
+    //     choices: ["var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()"],
+    //     answer: "var myFunction = function()"
+    // },
+    // {
+    //     question: 'How do you create a function in JavaScript?',
+    //     choices: ["var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()"],
+    //     answer: "var myFunction = function()"
+    // },
+    // {
+    //     question: 'How do you create a function in JavaScript?',
+    //     choices: ["var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()"],
+    //     answer: "var myFunction = function()"
+    // },
 ];
 
 // Function to create welcome screen with title, instructions and start button
@@ -43,7 +85,7 @@ var displayQuestionContainers = function() {
     questionEl.id = "question-display"
     questionEl.className = "question";
     questionBoxEl.appendChild(questionEl);
-    for (var index = 1; index < 5; index++) {
+    for (var index = 0; index < 4; index++) {
         var answerChoiceEl = document.createElement("li");
         answerChoiceEl.className = "answer-choice";
         answerChoiceEl.setAttribute("data-choice", index);
@@ -57,43 +99,54 @@ var displayQuestionContainers = function() {
     var displayNextQuestion = function () {
         // Display the next question to be answered in the question display box
         var questionEl = document.querySelector("#question-display");
-        questionEl.textContent = arrayQuestAnswer[questionNum] [0];
-        console.log(arrayQuestAnswer[questionNum] [0]);
+        var questAnswer = quizInfo [questionNum];
+        questionEl.textContent = questAnswer.question;
         //  Display corresponding answer choices
-        for (choiceNum = 1; choiceNum< 5; choiceNum++) {
+        for (choiceNum = 0; choiceNum < questAnswer.choices.length; choiceNum++) {
             var printAnswer = document.querySelector(".answer-choice[data-choice='" + choiceNum + "']");
-            printAnswer.textContent = arrayQuestAnswer[questionNum] [choiceNum];
+            printAnswer.textContent = questAnswer.choices[choiceNum];
         };
-        answerListEl.addEventListener("click", function() {
-            var answr = parseInt(event.target.getAttribute("data-choice"));
-            submitAnswer (questionNum, answr);
-        }
-        )};
-
-var submitAnswer = function(question, answr) {
-    console.log(answr);
-    var feedbackEl = document.querySelector("#feedback");
-    if (arrayQuestAnswer [question] [answr] == arrayQuestAnswer[question] [5]) {
-        score++;
+        answerListEl.addEventListener("click", processAnswer);
+    };
+            
+    var processAnswer = function(event) {
+        var userChoice = parseInt(event.target.getAttribute("data-choice"));
+        if (userChoice >= 0 && userChoice <= 3) {
+            submitAnswer (userChoice);
+        }; 
+    };
+    var submitAnswer = function(userChoice) {
+        var questAnswer = quizInfo [questionNum];
+        answerListEl.removeEventListener("click", processAnswer);
+        var feedbackEl = document.querySelector("#feedback");
         questionNum++;
-        console.log(feedbackEl);
-        feedbackEl.textContent = "Correct!"
-        setTimeout( function() {
-            feedbackEl.textContent = "";
-            if (questionNum < arrayQuestAnswer.length) {
+        if (questAnswer.choices[userChoice] == questAnswer.answer) {
+            score++;
+            feedbackEl.textContent = "Correct!"
+            setTimeout(function() {
+                feedbackEl.textContent = ""; 
+            if (questionNum < quizInfo.length) {
                 displayNextQuestion();
             }
             else {
                 endGame();
-            };
-        }, 1000); 
-    }
-    else {
-        feedbackEl.textContent = "Incorrect!";
-        setTimeout( function() {feedbackEl.textContent = ""}, 1000);
-        timerValue = timerValue - 10;
-    }
-};
+            }
+            }, 2000);
+        }
+        else {
+            timerValue = timerValue - 10;
+            feedbackEl.textContent = "Incorrect!";
+            setTimeout(function() {
+                feedbackEl.textContent = "";
+            if (questionNum < quizInfo.length) {
+                displayNextQuestion();
+            }
+            else {
+                endGame();
+            }
+        }, 2000);
+        };
+    };
 
 // Create Game play control function 
 var gameControl = function() {
@@ -118,22 +171,22 @@ var timerStart = function() {
     timerValue = timerStartTime
     var gameTimer = setInterval(function(){
         timerDisplay.innerHTML = "Time Remaining: " + timerValue;
-
         if (timerValue > 0) {
         timerValue--;
         }
         // if the timer has expired, stop the timer and end the game
     else {
         clearInterval(gameTimer);
-        // endGame();
+        endGame();
         }
     },1000);
 };
 
 // End game, display score, check high scores
 var endGame = function() {
-console.log(score);
-storeHighScore();
+    answerListEl.removeEventListener("click", processAnswer)
+    console.log(score);
+// storeHighScore();
 };
 // Update high score in local storage
 
@@ -144,3 +197,5 @@ storeHighScore();
 
 createLandingScreen();
 startBtn.addEventListener("click" , gameControl);
+answerListEl.addEventListener("click", processAnswer)
+
