@@ -8,13 +8,19 @@ var answerFeedEl = document.querySelector("#feedback-container");
 var startBtn = document.createElement("button");
 var gameInstructionEl = document.createElement("p");
 var timerDisplay = document.querySelector("#timer-display");
+var submitInitialEl = document.querySelector("#initial-input-btn");
 
 // initialize beginning game conditions
 var questionNum = 0
 var timerValue = 0
-var timerStartTime = 100
+var timerStartTime = 60
 var score = 0;
-
+var endOfGame = true;
+var highScore = [ {
+    score: 0,
+    initials: "" ,
+}
+];
 
 var quizInfo = [
     { 
@@ -22,7 +28,6 @@ var quizInfo = [
         choices:["Top of Head section","Bottom of Body section","Before First Div element","Top of Body section"],
         answer: "Bottom of Body section"
     },
-
     {
         question: 'How do you write "Help!" in an alert box using JavaScript?',
         choices: ['alert("Help!");','msg("Help");','alrtBox("Help!");','msgBox("Help");'],
@@ -116,15 +121,18 @@ var displayQuestionContainers = function() {
         }; 
     };
     var submitAnswer = function(userChoice) {
+        // console.log(questAnswer.answer);
         var questAnswer = quizInfo [questionNum];
-        answerListEl.removeEventListener("click", processAnswer);
+    answerListEl.removeEventListener("click", processAnswer);
         var feedbackEl = document.querySelector("#feedback");
         questionNum++;
         if (questAnswer.choices[userChoice] == questAnswer.answer) {
-            score++;
+            timerValue = timerValue + 10;
             feedbackEl.textContent = "Correct!"
+            feedbackEl.setAttribute("style", "border-top: 3px solid rgba(0, 0, 0, 25%);");
             setTimeout(function() {
-                feedbackEl.textContent = ""; 
+                feedbackEl.textContent = "";
+                feedbackEl.setAttribute("style", "none");
             if (questionNum < quizInfo.length) {
                 displayNextQuestion();
             }
@@ -136,8 +144,10 @@ var displayQuestionContainers = function() {
         else {
             timerValue = timerValue - 10;
             feedbackEl.textContent = "Incorrect!";
+            feedbackEl.setAttribute("style", "border-top: 3px solid rgba(0, 0, 0, 25%);");
             setTimeout(function() {
                 feedbackEl.textContent = "";
+                feedbackEl.setAttribute("style", "none");
             if (questionNum < quizInfo.length) {
                 displayNextQuestion();
             }
@@ -151,51 +161,77 @@ var displayQuestionContainers = function() {
 // Create Game play control function 
 var gameControl = function() {
     // remove game instructions and start button
+    endOfGame = false;
     startBtn.remove();
     gameInstructionEl.remove();
     // Start Timer
     timerStart();
     // Optional, randomize the order for the question and answer order
-    // Start Q&A
-    displayQuestionContainers()
     // Call Q&A display function
-    //On a click of any of the options, call function to check answer 
-
-    // create
+    displayQuestionContainers()
 };
-
-// Function to check answer, keep score, update timer and display feedback
-
 // Timer function
 var timerStart = function() {
     timerValue = timerStartTime
     var gameTimer = setInterval(function(){
-        timerDisplay.innerHTML = "Time Remaining: " + timerValue;
-        if (timerValue > 0) {
-        timerValue--;
+        if (timerValue > 0 && !endOfGame) {
+            timerDisplay.innerHTML = "Time Remaining: " + timerValue;
+            timerValue--;
         }
         // if the timer has expired, stop the timer and end the game
-    else {
-        clearInterval(gameTimer);
-        endGame();
+        else if (endOfGame) {
+            clearInterval(gameTimer);
         }
-    },1000);
+        else {
+            clearInterval(gameTimer);
+            endGame();
+            }
+        },1000);
 };
 
 // End game, display score, check high scores
 var endGame = function() {
     answerListEl.removeEventListener("click", processAnswer)
+    // log score and clear timer
+    score = timerValue;
     console.log(score);
-// storeHighScore();
+    endOfGame = true;
+    localStorage.setItem('score', JSON.stringify(score));
+    window.location.href = "highscore.html";
+    // Display High Score
+    // var gameOverDisplayEl = document.querySelector("#question-display");
+
 };
-// Update high score in local storage
 
-// Display high scores and give choice to start again
-
-// ***Optional*** randomize function to set the question order and possible answer order
-// Create event listeners
-
-createLandingScreen();
-startBtn.addEventListener("click" , gameControl);
-answerListEl.addEventListener("click", processAnswer)
-
+// var storeHighScore = function() {
+    //     console.log(initialRequestEl);
+    // }
+    
+    
+    
+    // Update high score in local storage
+    
+    
+    // var
+    // var hi
+    // var highScoreStore = {
+        //     player: "",
+        //     score: 
+        // };
+        
+        
+        // Display high scores and give choice to start again
+        
+        // ***Optional*** randomize function to set the question order and possible answer order
+        // Create event listeners
+        
+        createLandingScreen();
+        startBtn.addEventListener("click" , gameControl);
+        // submitInitialEl.addEventListener("click", storeHighScore);
+        // answerListEl.addEventListener("click", processAnswer)
+        
+        // // clear <li>s, display score and ask for user initials
+        // for (index = 0; index < 4; index++) {
+        //     var clearChoiceEL = document.querySelector(".answer-choice[data-choice='" + index + "']");
+        //     clearChoiceEL.remove();
+        // };
