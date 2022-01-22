@@ -70,6 +70,10 @@ body {
 }
 .minor-content-frame {
     flex: 5;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 #answer-choice-container {
     display: flex;
@@ -87,12 +91,36 @@ body {
     flex: 1;
     font-size: 1.25rem;
 }
+#feedback-container {
+    width: 70%;
+    margin: 0 auto;
+}
 #feedback {
     color: rgba(0, 0, 0, 25%);
     font-weight: lighter;
     font-size: 2.0rem;
     width: 70%;
-    border-top: 3px solid rgba(0, 0, 0, 25%);
-    margin: 20px auto;
-
+    margin: 20px;
+    display: flex;
+}
+.high-score-initials {
+    height: 50px;
+    width: 100px;
+    font-size: 1.15rem;
+    margin-top: 20px;
+    margin-right: 50px;
+}
+#initial-input-btn {
+    display: inline;
+    height: 50px;
+    width: 100px;
+    border-radius: 10px;
+    background-color: var(--grey);
+    color: var(--secondary);
+    font-weight: bold;
+    font-size: 1.10rem;
+    margin: 20px 20px;
+}
+.initial-request-label {
+    width: 200px;
 }

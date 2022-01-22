@@ -1,0 +1,83 @@
+.high-score-title {
+    width:100%;
+    margin-bottom: 100px;
+}
+.submit-form {
+    display:flex;
+    width: 60%;
+    justify-content: space-between;
+    margin:auto;
+}
+.submit-form p {
+    flex:5;
+    margin: 0 10px;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.submit-form input {
+    flex:1;
+    width: 150px;
+    margin:0 10px;
+    border-radius: 10px;
+    font-size: 1.25rem;
+}
+#save-task {
+    flex: 2;
+    margin: 0 50px;
+    border-radius: 10px;
+    background-color: grey;
+    color: white;
+}
+#high-score-input {
+    margin-bottom: 100px;
+}
+
+#high-score-input h2 {
+    text-align: center;
+    font-size: 2.0rem;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+#report-score {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.high-score-container {
+    display: none;
+    justify-content: center;
+    align-items: center ;
+    flex-direction: column;
+}
+.high-score-title {
+    font-size: 2.5rem;
+    text-align: center;
+    width:100%;
+    flex:1 100%;
+}
+.high-score-list {
+
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: space-evenly;
+    flex:1;
+    margin-top: 50px;
+    font-size: 1.25rem;
+}
+.high-score-item {
+    flex:1;
+    margin: 5px 0;
+}
+.new-game-btn {
+    width:100px;
+    height:50px;
+    border-radius: 10px;
+}
+.button-container {
+    width: 50%;
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
