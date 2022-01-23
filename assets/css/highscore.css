@@ -1,3 +1,10 @@
+:root {
+    --primary: black;
+    --secondary: white;
+    --tertiary: rgb(85, 28, 240);
+    --grey:  rgb(110, 110, 110);
+  }
+
 .high-score-title {
     width:100%;
     margin-bottom: 100px;
@@ -21,10 +28,10 @@
     border-radius: 10px;
     font-size: 1.25rem;
 }
-#save-task {
+#save-initials {
     flex: 2;
     margin: 0 50px;
-    border-radius: 10px;
+    border-radius: 15px;
     background-color: grey;
     color: white;
 }
@@ -43,7 +50,7 @@
     text-align: center;
 }
 
-.high-score-container {
+#high-score-container {
     display: none;
     justify-content: center;
     align-items: center ;
@@ -56,23 +63,33 @@
     flex:1 100%;
 }
 .high-score-list {
-
     display: flex;
     flex-direction: column;
     width: 50%;
     justify-content: space-evenly;
     flex:1;
     margin-top: 50px;
-    font-size: 1.25rem;
+    
 }
 .high-score-item {
     flex:1;
     margin: 5px 0;
+    font-size: 1.7rem;
+    list-style-type: none;
 }
 .new-game-btn {
+    color: white;
     width:100px;
     height:50px;
-    border-radius: 10px;
+    border-radius: 15px;
+    background-color: var(--tertiary);
+}
+#clear-high-scores {
+    color: white;
+    width:100px;
+    height:50px;
+    border-radius: 15px;
+    background-color: var(--tertiary);
 }
 .button-container {
     width: 50%;
@@ -80,4 +97,7 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+}
+#board-title {
+    font-size: 2.0rem;
 }
