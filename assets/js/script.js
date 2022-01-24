@@ -123,7 +123,7 @@ var displayQuestionContainers = function() {
     var submitAnswer = function(userChoice) {
         // console.log(questAnswer.answer);
         var questAnswer = quizInfo [questionNum];
-    answerListEl.removeEventListener("click", processAnswer);
+        answerListEl.removeEventListener("click", processAnswer);
         var feedbackEl = document.querySelector("#feedback");
         questionNum++;
         if (questAnswer.choices[userChoice] == questAnswer.answer) {
@@ -198,40 +198,11 @@ var endGame = function() {
     endOfGame = true;
     localStorage.setItem('score', JSON.stringify(score));
     window.location.href = "highscore.html";
-    // Display High Score
-    // var gameOverDisplayEl = document.querySelector("#question-display");
-
 };
 
-// var storeHighScore = function() {
-    //     console.log(initialRequestEl);
-    // }
-    
-    
-    
-    // Update high score in local storage
-    
-    
-    // var
-    // var hi
-    // var highScoreStore = {
-        //     player: "",
-        //     score: 
-        // };
-        
-        
-        // Display high scores and give choice to start again
         
         // ***Optional*** randomize function to set the question order and possible answer order
         // Create event listeners
         
         createLandingScreen();
         startBtn.addEventListener("click" , gameControl);
-        // submitInitialEl.addEventListener("click", storeHighScore);
-        // answerListEl.addEventListener("click", processAnswer)
-        
-        // // clear <li>s, display score and ask for user initials
-        // for (index = 0; index < 4; index++) {
-        //     var clearChoiceEL = document.querySelector(".answer-choice[data-choice='" + index + "']");
-        //     clearChoiceEL.remove();
-        // };
