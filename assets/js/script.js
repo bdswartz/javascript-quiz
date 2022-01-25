@@ -9,6 +9,7 @@ var startBtn = document.createElement("button");
 var gameInstructionEl = document.createElement("p");
 var timerDisplay = document.querySelector("#timer-display");
 var submitInitialEl = document.querySelector("#initial-input-btn");
+var randomChoiceCounter = [1,2,3,4];
 
 // initialize beginning game conditions
 var questionNum = 0
@@ -16,11 +17,6 @@ var timerValue = 0
 var timerStartTime = 60
 var score = 0;
 var endOfGame = true;
-var highScore = [ {
-    score: 0,
-    initials: "" ,
-}
-];
 
 var quizInfo = [
     { 
@@ -35,7 +31,7 @@ var quizInfo = [
     },
     {
         question: 'How do you create a function in JavaScript?',
-        choices: ["var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()"],
+        choices: ["var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction function()"],
         answer: "var myFunction = function()"
     },
     {
@@ -48,26 +44,31 @@ var quizInfo = [
         choices: ["<! comment", "<--comment" , "//comment", "/* comment */"],
         answer: "//comment"
     },
-    // {
-    //     question: 'How do you create a function in JavaScript?',
-    //     choices: ["var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()"],
-    //     answer: "var myFunction = function()"
-    // },
-    // {
-    //     question: 'How do you create a function in JavaScript?',
-    //     choices: ["var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()"],
-    //     answer: "var myFunction = function()"
-    // },
-    // {
-    //     question: 'How do you create a function in JavaScript?',
-    //     choices: ["var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()"],
-    //     answer: "var myFunction = function()"
-    // },
-    // {
-    //     question: 'How do you create a function in JavaScript?',
-    //     choices: ["var myFunction() = function", "function.myFunction()", "var myFunction = function()","myFunction Function()"],
-    //     answer: "var myFunction = function()"
-    // },
+    {
+        question: 'What type of variable takes precedence if named the same as another variable?',
+        choices: ["native variable", "global variable", "local variable","none of these"],
+        answer: "local variable"
+    },
+    {
+        question: 'Which of the following Array methods removes all but the specified range of items in the array?',
+        choices: ["splice()", "range()", "slice()","shift()"],
+        answer: "slice()"
+    },
+    {
+        question: 'How do you write an IF statement to run if x is NOT equal to y',
+        choices: ["if (x NOT= y)", "if (x >< y)", "if (x != y)","if (x /= y)"],
+        answer: "if (x != y)"
+    },
+    {
+        question: 'What is the proper way to start a WHILE loop?',
+        choices: ["while (i = 0; i <= 5; i++)", "while (i from 1 to 10)", "while (x >= 10)","while x < 10"],
+        answer: "while (x >= 10)"
+    },
+    {
+        question: 'How do you call a function in JavaScript?',
+        choices: ["call myFunction()", "myFunction()", "function myFunction()","var myFunction() ="],
+        answer: "myFunction()"
+    }
 ];
 
 // Function to create welcome screen with title, instructions and start button
@@ -99,6 +100,9 @@ var displayQuestionContainers = function() {
     displayNextQuestion();
 };
 
+// var randomizeArray  = function(array,arrayLength) {
+//     for (var i = arrayLength)
+// };
 
 // Populate the question and answer elements
     var displayNextQuestion = function () {
@@ -109,21 +113,25 @@ var displayQuestionContainers = function() {
         //  Display corresponding answer choices
         for (choiceNum = 0; choiceNum < questAnswer.choices.length; choiceNum++) {
             var printAnswer = document.querySelector(".answer-choice[data-choice='" + choiceNum + "']");
+            printAnswer.setAttribute("style","background-color: rgb(110, 110, 110);");
             printAnswer.textContent = questAnswer.choices[choiceNum];
         };
         answerListEl.addEventListener("click", processAnswer);
     };
             
     var processAnswer = function(event) {
+        var userChoiceEl = event.target;
         var userChoice = parseInt(event.target.getAttribute("data-choice"));
         if (userChoice >= 0 && userChoice <= 3) {
+            userChoiceEl.setAttribute("style", "background-color: rgb(201, 26, 232);");
             submitAnswer (userChoice);
-        }; 
+        };
     };
     var submitAnswer = function(userChoice) {
         // console.log(questAnswer.answer);
         var questAnswer = quizInfo [questionNum];
         answerListEl.removeEventListener("click", processAnswer);
+        // var userAnswerEl = document.querySelector(".answer-choice[data-choice='" + userChoice + "']");
         var feedbackEl = document.querySelector("#feedback");
         questionNum++;
         if (questAnswer.choices[userChoice] == questAnswer.answer) {
@@ -173,6 +181,8 @@ var gameControl = function() {
 // Timer function
 var timerStart = function() {
     timerValue = timerStartTime
+    timerDisplay.innerHTML = "Time Remaining: "+ timerValue;
+    timerValue=(timerValue-1);
     var gameTimer = setInterval(function(){
         if (timerValue > 0 && !endOfGame) {
             timerDisplay.innerHTML = "Time Remaining: " + timerValue;
@@ -194,7 +204,7 @@ var endGame = function() {
     answerListEl.removeEventListener("click", processAnswer)
     // log score and clear timer
     score = timerValue;
-    console.log(score);
+    // console.log(score);
     endOfGame = true;
     localStorage.setItem('score', JSON.stringify(score));
     window.location.href = "highscore.html";
