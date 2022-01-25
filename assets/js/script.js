@@ -9,7 +9,7 @@ var startBtn = document.createElement("button");
 var gameInstructionEl = document.createElement("p");
 var timerDisplay = document.querySelector("#timer-display");
 var submitInitialEl = document.querySelector("#initial-input-btn");
-var randomChoiceCounter = [1,2,3,4];
+// var randomChoiceCounter = [1,2,3,4];
 
 // initialize beginning game conditions
 var questionNum = 0
@@ -18,6 +18,7 @@ var timerStartTime = 60
 var score = 0;
 var endOfGame = true;
 
+// Game Questions, Choices, and Answer Key all in one array of objects
 var quizInfo = [
     { 
         question:"Where is the best place to enter a reference to an external JavaScript file?",
@@ -74,7 +75,7 @@ var quizInfo = [
 // Function to create welcome screen with title, instructions and start button
 var createLandingScreen = function() {
     // Create game instructions below Game Title (<P> in .title-block)
-    gameInstructionEl.textContent = "Answer multiple choice questions by clicking on the correct answer. You have a total of 100 seconds to complete the quiz. Every wrong answer will take away 10 seconds from your remaining time. Press the Start button when ready to begin the quiz.";
+    gameInstructionEl.textContent = "Answer multiple choice questions by clicking on the correct answer. You have a total of 60 seconds to complete the quiz. Every wrong answer will take away 10 seconds from your remaining time. Press the Start button when ready to begin the quiz.";
     gameInstructionEl.className = "sub-game-title";
     // Create start button below the game instructions (button in .button-container)
     startBtn.className = "start-btn";
@@ -84,8 +85,8 @@ var createLandingScreen = function() {
     buttonSelectContEl.appendChild(startBtn);
 };
 
+// Function to reate elements for questions and answer choices
 var displayQuestionContainers = function() {
-// Create the question element and answer choice list elements
     var questionBoxEl = document.querySelector("#major-header-content");
     var questionEl = document.createElement("h2");
     questionEl.id = "question-display"
@@ -100,14 +101,15 @@ var displayQuestionContainers = function() {
     displayNextQuestion();
 };
 
+// Array randomizer utility to be used to randomize question order and answer choice order
 var randomizeArray  = function(passedArray) {
     for (var i = passedArray.length-1; i > 0 ; i--) {
         var j = Math.floor(Math.random()*i);
-        var k = array[i];
+        var k = passedArray[i];
         passedArray[i] = passedArray[j];
         passedArray[j] = k;
     };
-    return array
+    return passedArray;
 };
 
 // Populate the question and answer elements
@@ -116,6 +118,8 @@ var randomizeArray  = function(passedArray) {
         var questionEl = document.querySelector("#question-display");
         var questAnswer = quizInfo [questionNum];
         questionEl.textContent = questAnswer.question;
+         // "Shuffle" the answer list since I'm starting to get automatic
+        questAnswer.choices=randomizeArray(questAnswer.choices);
         //  Display corresponding answer choices
         for (choiceNum = 0; choiceNum < questAnswer.choices.length; choiceNum++) {
             var printAnswer = document.querySelector(".answer-choice[data-choice='" + choiceNum + "']");
@@ -124,7 +128,7 @@ var randomizeArray  = function(passedArray) {
         };
         answerListEl.addEventListener("click", processAnswer);
     };
-            
+     // Process the user response and style to indicate that an answer was chosen
     var processAnswer = function(event) {
         var userChoiceEl = event.target;
         var userChoice = parseInt(event.target.getAttribute("data-choice"));
@@ -133,11 +137,11 @@ var randomizeArray  = function(passedArray) {
             submitAnswer (userChoice);
         };
     };
+
+    // Function to compare user answer to the answer key and give user feedback
     var submitAnswer = function(userChoice) {
-        // console.log(questAnswer.answer);
         var questAnswer = quizInfo [questionNum];
         answerListEl.removeEventListener("click", processAnswer);
-        // var userAnswerEl = document.querySelector(".answer-choice[data-choice='" + userChoice + "']");
         var feedbackEl = document.querySelector("#feedback");
         questionNum++;
         if (questAnswer.choices[userChoice] == questAnswer.answer) {
@@ -172,7 +176,7 @@ var randomizeArray  = function(passedArray) {
         };
     };
 
-// Create Game play control function 
+// Game play flow control function 
 var gameControl = function() {
     // remove game instructions and start button
     endOfGame = false;
@@ -180,7 +184,8 @@ var gameControl = function() {
     gameInstructionEl.remove();
     // Start Timer
     timerStart();
-    // Optional, randomize the order for the question and answer order
+    // "Shuffle" the Question Order
+    quizInfo = randomizeArray(quizInfo);
     // Call Q&A display function
     displayQuestionContainers()
 };
@@ -215,9 +220,6 @@ var endGame = function() {
     localStorage.setItem('score', JSON.stringify(score));
     window.location.href = "highscore.html";
 };
-
-        
-        // ***Optional*** randomize function to set the question order and possible answer order
         // Create event listeners
         
         createLandingScreen();
