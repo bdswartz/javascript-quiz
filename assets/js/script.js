@@ -100,9 +100,15 @@ var displayQuestionContainers = function() {
     displayNextQuestion();
 };
 
-// var randomizeArray  = function(array,arrayLength) {
-//     for (var i = arrayLength)
-// };
+var randomizeArray  = function(passedArray) {
+    for (var i = passedArray.length-1; i > 0 ; i--) {
+        var j = Math.floor(Math.random()*i);
+        var k = array[i];
+        passedArray[i] = passedArray[j];
+        passedArray[j] = k;
+    };
+    return array
+};
 
 // Populate the question and answer elements
     var displayNextQuestion = function () {
