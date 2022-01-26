@@ -41,7 +41,7 @@ var checkHighScore = function() {
         var listContainerEl = document.querySelector("#high-score-list")
         var listItemEl = document.createElement("li");
         listItemEl.className = "high-score-item";
-        listItemEl.innerHTML = "<span style:'float:left;'>" + (index +1) + ".   " + highScoresArray[index].initials + "</span> <span style:'float:right;'>" + highScoresArray[index].score; + "</span>"
+        listItemEl.innerHTML = "<span style='float:left;'>" + (index +1) + ".   " + highScoresArray[index].initials + "</span> <span style='float:right;'>" + highScoresArray[index].score; + "</span>"
         listContainerEl.appendChild(listItemEl);
     }
 };

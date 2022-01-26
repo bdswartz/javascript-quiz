@@ -4,11 +4,6 @@
     --tertiary: rgb(85, 28, 240);
     --grey:  rgb(110, 110, 110);
   }
-
-.high-score-title {
-    width:100%;
-    margin-bottom: 70px;
-}
 .submit-form {
     display:flex;
     width: 90%;
@@ -60,7 +55,8 @@
     font-size: 2.5rem;
     text-align: center;
     width:100%;
-    flex:1 50%;
+    flex: 1 50%;
+    margin-bottom: 30px;
 }
 #high-score-list {
     display: flex;
@@ -68,7 +64,7 @@
     width: 40%;
     justify-content: space-evenly;
     flex:1;
-    margin-top: 30px;
+    padding-inline-start: 0px;
     
 }
 .high-score-item {
@@ -78,15 +74,9 @@
     font-size: 1.7rem;
     list-style-type: none;
 }
-.new-game-btn {
+.game-btn {
     color: white;
-    width:100px;
-    height:50px;
-    border-radius: 15px;
-    background-color: var(--tertiary);
-}
-#clear-high-scores {
-    color: white;
+    font-weight: bold;
     width:100px;
     height:50px;
     border-radius: 15px;
@@ -94,7 +84,7 @@
 }
 .button-container {
     width: 50%;
-    margin-top: 50px;
+    margin-top: 20px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
